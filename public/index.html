@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="description" content="RxJS ECig with blinker" />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>JS Bin</title>
+    <style>
+      .content {
+        margin-top: 22px;
+      }
+      #gadgets {
+      }
+      br {
+        margin-top: 20px;
+        display: block;
+      }
+      #action-log {
+        width: 60px;
+        height: 90px;
+        background-color: "#cccccc";
+        border: 1px solid black;
+      }
+
+      .blinking {
+        animation: blinker 0.3s linear 4;
+      }
+
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body style="font-family: Arial">
+    <h1>Using RxJS and Redux to Control State</h1>
+
+    <div id="gadgets">
+      <div style="float: left">
+        <div id="gadget"></div>
+        <input
+          style="position:relative; left: 50px; height: 30px; width: 120px"
+          id="deviceButton"
+          type="button"
+          value="Press"
+        />
+      </div>
+      <div style="float: left">
+        <textarea id="action-log">
+Action Log:
+</textarea
+        >
+        <br />
+        <a
+          style="font-size: 8pt"
+          onclick="/* trigger('demo/run'); return false"
+          href="#"
+          title="Turns On, Presses, Releases, Turns Off"
+          >Re-run Demo</a
+        >
+      </div>
+      <div style="clear: both" />
+    </div>
+
+    <div class="content">
+      In contrast with a full web browser, when you're working with IOT, you
+      often have only a single button the user must funnel all of their
+      interactions through. Stephen Hawking's award winning speech synthesis
+      device had only one button!
+      <br />
+      Here, we introduce a simulation of a single-button device.
+      <br />
+      Play with the device above, following the instructions, to get a feel for
+      how this device operates. Can you get it to behave strangely, or is it
+      behaving as specified below?
+
+      <br />
+      The button:
+
+      <ol>
+        <li>
+          Is a momentary-press type which will default to UP, while also capable
+          of being DOWN.
+        </li>
+        <li>
+          Must recieve 5 press/release within 1500 msec to trigger the device to
+          turn on.
+        </li>
+        <li>
+          While the device is on, holding the button DOWN will trigger the LED
+          and the coil to turn on.
+        </li>
+        <li>Once the button is back UP, the coil and LED will turn off.</li>
+        <li>
+          Button presses have no effect while the device is off (except the
+          5-press).
+        </li>
+        <li>
+          When transitioning between on/off states, the device will blink 5x to
+          give the user some time to see the effect of the change.
+        </li>
+      </ol>
+      <br />
+
+      <br />
+      For the safety of the user, the heating coil:
+      <ol>
+        <li>Must never be on before the device has been turned on</li>
+        <li>Must initially be turned off</li>
+        <li>Must light an LED while it is on</li>
+      </ol>
+    </div>
+
+    <div class="content">
+      Think about how you would approach this problem. How would you make sure
+      that if someone clicks 6 times in a row, not 5, that the 6th click does
+      not toggle the device state again (how would you <i>quiesce</i> the
+      stream?). This kind of code is just poetry, with
+      <a href="http://reactivex.io/">RxJS</a>, in my opinion.
+      <br />
+      Drop me a line at
+      <a href="http://twitter.com/deaniusol">@deaniusol</a> and let me know what
+      you think.
+      <br />
+    </div>
+  </body>
+</html>
